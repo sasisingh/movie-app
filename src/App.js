@@ -1,23 +1,105 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import { TailSpin } from 'react-loader-spinner'
+// import Loader from './components/Loader';
+// import Search from './components/Search';
+// import Card from './components/Card';
 
 function App() {
+
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
+
+  const getData = () => {
+    setIsLoading(true)
+    fetch("https://api.themoviedb.org/3/search/movie?api_key=d4fbc0cd7f3b6b7ea3c3b8e5c74b8f46&language=en-US&query=spider")
+      .then((result) => result.json()).then((resp) => {
+        // console.log(resp)
+        setData(resp.results)
+        setIsLoading(false)
+      }).catch((err) => {
+        // console.log(err)
+        setIsLoading(false)
+      })
+  }
+  useEffect(() => {
+    getData()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div>{/* <Loader /> */}
+        <TailSpin
+          height="80"
+          width="80"
+          color="#4fa94d"
+          ariaLabel="tail-spin-loading"
+          radius="1"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+        {/* end loader */}</div>
+    )
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className='container'>
+        {/* <Search/> */}
+        <div className='container mt-5'>
+          <div className='row'>
+            <div className='col-sm-2'></div>
+            <div className='col-sm-8'>
+              <div className='row'>
+                <div className='col-sm-2'></div>
+                <div className='col-sm-8'>
+                  <div className='input-group'>
+                    <input type='text' placeholder='Search Movies' className='form-control' />
+                    <span className='btn btn-warning'>Search</span>
+                  </div>
+                </div>
+                <div className='col-sm-2'></div>
+              </div>
+            </div>
+            <div className='col-sm-2'></div>
+          </div>
+        </div>
+
+      </div>
+      {/* end search  */}
+      {/* start loader */}
+
+      {/* card start */}
+      {/* <Card /> */}
+      <div className='container p-5'>
+        <div className='row'>
+          <div className='col-sm-2' ></div>
+          <div className='col-sm-8'>
+            {
+              data.map((item, i) => {
+                return (
+                  //  console.log(item)
+                  <div className='row my-4 bg-white'>
+                    <div className='col-sm-5'>
+                      <img src={`https://image.tmdb.org/t/p/original${item.poster_path}`} alt="image" height="230px" width="300px" />
+                    </div>
+                    <div className='col-sm-6 py-5'>
+                      <div className='card-body'>
+                        <b style={{ fontSize: "18px" }}>{item.original_title}</b>
+                        <p>{item.overview.length > 100 ? item.overview.substr(0, 100) + "..." : item.overview}</p>
+                        <p><span className='ms-4'>Release Date</span> <span className='ms-4'> {item.release_date} </span> <span className='ms-4'> {item.vote_count} Votes</span></p>
+                      </div>
+                    </div>
+                    <div className='col-sm-1 bg-light'></div>
+                  </div>
+
+                )
+              })
+            }
+          </div>
+          <div className='col-sm-2 '></div>
+        </div>
+      </div>
+      {/* card end */}
     </div>
   );
 }
