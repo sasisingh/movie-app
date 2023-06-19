@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner'
+import Search from './components/Search';
 // import Loader from './components/Loader';
 // import Search from './components/Search';
 // import Card from './components/Card';
 
 function App() {
-
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false)
-
-  const getData = () => {
+  
+  const getData = (value) => {
     setIsLoading(true)
-    fetch("https://api.themoviedb.org/3/search/movie?api_key=d4fbc0cd7f3b6b7ea3c3b8e5c74b8f46&language=en-US&query=spider")
+    fetch(`https://api.themoviedb.org/3/search/movie?api_key=d4fbc0cd7f3b6b7ea3c3b8e5c74b8f46&language=en-US&query=${value || "something"}`)
       .then((result) => result.json()).then((resp) => {
         // console.log(resp)
         setData(resp.results)
@@ -25,57 +25,46 @@ function App() {
     getData()
   }, [])
 
-  if (isLoading) {
-    return (
-      <div>{/* <Loader /> */}
-        <TailSpin
-          height="80"
-          width="80"
-          color="#4fa94d"
-          ariaLabel="tail-spin-loading"
-          radius="1"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-        />
-        {/* end loader */}</div>
-    )
+  
+  const handleSearch = (value) => {
+    getData(value)
   }
+
   return (
     <div className="App">
-      <div className='container'>
-        {/* <Search/> */}
-        <div className='container mt-5'>
-          <div className='row'>
-            <div className='col-sm-2'></div>
-            <div className='col-sm-8'>
-              <div className='row'>
-                <div className='col-sm-2'></div>
-                <div className='col-sm-8'>
-                  <div className='input-group'>
-                    <input type='text' placeholder='Search Movies' className='form-control' />
-                    <span className='btn btn-warning'>Search</span>
-                  </div>
-                </div>
-                <div className='col-sm-2'></div>
-              </div>
-            </div>
-            <div className='col-sm-2'></div>
-          </div>
-        </div>
-
+      <div className='container'> 
+        <Search handleSearch={handleSearch}  />
       </div>
       {/* end search  */}
       {/* start loader */}
-
       {/* card start */}
       {/* <Card /> */}
       <div className='container p-5'>
         <div className='row'>
           <div className='col-sm-2' ></div>
           <div className='col-sm-8'>
+            {isLoading &&
+              <div style={{ paddingLeft: "50%" }}>
+                <TailSpin
+                  height="80"
+                  width="80"
+                  color="#4fa94d"
+                  ariaLabel="tail-spin-loading"
+                  radius="1"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={true}
+                />
+              </div>
+            }
             {
-              data.map((item, i) => {
+              (!isLoading && data.length === 0) &&
+              <div className='text-center'>
+                <b>No Match Found Data</b>
+              </div>
+            }
+            {
+              !isLoading && data.map((item, i) => {
                 return (
                   //  console.log(item)
                   <div className='row my-4 bg-white'>
@@ -91,7 +80,6 @@ function App() {
                     </div>
                     <div className='col-sm-1 bg-light'></div>
                   </div>
-
                 )
               })
             }
