@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { TailSpin } from 'react-loader-spinner'
 import Search from './components/Search';
 import Loader from './components/Loader';
 import Card from './components/Card';
