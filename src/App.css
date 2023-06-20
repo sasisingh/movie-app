@@ -1,3 +1,35 @@
- body{
-    background:linear-gradient(to right,#7ca6ea,#c9adea);
-}
+ body {
+     background: linear-gradient(to right, #7ca6ea, #c9adea);
+ }
+
+ img {
+     height: 230px;
+     width: 300px;
+ }
+
+ .title {
+     font-size: 18px;
+ }
+
+ .overview {
+     font-size: 15px;
+ }
+
+ .realease-date {
+     font-size: 15px;
+ }
+
+ @media (min-width: 320px) {
+     img {
+         height: 240px;
+         width: 100%;
+     }
+ }
+
+ @media (min-width :991px) and (max-width: 1024px) {
+     img {
+         height: 230px;
+         width: 225px;
+     }
+
+ }
