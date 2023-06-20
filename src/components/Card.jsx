@@ -4,7 +4,7 @@ function Card({ item }) {
 	return (
 		<div className='row my-4 bg-white'>
 			<div className='col-sm-5'>
-				<img src={`https://image.tmdb.org/t/p/original${item.poster_path}`} alt="image" height="230px" width="300px" />
+				<img src={`https://image.tmdb.org/t/p/original${item.poster_path}`} alt="poster" height="230px" width="300px" />
 			</div>
 			<div className='col-sm-6 py-5'>
 				<div className='card-body'>
