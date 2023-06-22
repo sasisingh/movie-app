@@ -31,5 +31,7 @@
          height: 230px;
          width: 225px;
      }
-
+ }
+ select{
+    border: none;
  }
