@@ -31,11 +31,14 @@ function App() {
 	}, [year, curretPage])
 
 	const handleSearch = () => {
+		resetPage()
 		getData()
 	}
 
 	const onChangeYear = (e) => {
+		resetPage()
 		setYear(e.target.value)
+		
 
 	}
 	const handleChange = (event) => {
@@ -45,6 +48,10 @@ function App() {
 	const handlePageClick = (event) => {
 		setCurrentPage(event.selected + 1)
 		// console.log('event -------' +event.selected +1)
+	}
+
+	const resetPage = () => {
+		setCurrentPage(1)
 	}
 
 	const startYear = 1990;
