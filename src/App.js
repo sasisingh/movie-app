@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Loader from './components/Loader';
 import Card from './components/Card';
+import ReactPaginate from 'react-paginate';
 
 function App() {
 
@@ -8,12 +9,16 @@ function App() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [query, setQuery] = useState("something")
 	const [year, setYear] = useState('')
+	const [totalPage, setTotalPage] = useState(null)
+	const [curretPage, setCurrentPage] = useState(1)
+
 
 	const getData = () => {
 		setIsLoading(true)
-		fetch(`https://api.themoviedb.org/3/search/movie?api_key=d4fbc0cd7f3b6b7ea3c3b8e5c74b8f46&language=en-US&query=${query || "something"}&year=${year}`)
+		fetch(`https://api.themoviedb.org/3/search/movie?api_key=d4fbc0cd7f3b6b7ea3c3b8e5c74b8f46&language=en-US&query=${query || "something"}&year=${year}&page=${curretPage}`)
 			.then((result) => result.json()).then((resp) => {
 				setData(resp.results)
+				setTotalPage(resp.total_pages)
 				setIsLoading(false)
 			}).catch((err) => {
 				setIsLoading(false)
@@ -23,7 +28,7 @@ function App() {
 	useEffect(() => {
 		getData()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [year])
+	}, [year, curretPage])
 
 	const handleSearch = () => {
 		getData()
@@ -37,6 +42,11 @@ function App() {
 		setQuery(event.target.value)
 	}
 
+	const handlePageClick = (event) => {
+		setCurrentPage(event.selected + 1)
+		// console.log('event -------' +event.selected +1)
+	}
+
 	const startYear = 1990;
 	const endYear = 2023
 	const years = []
@@ -44,7 +54,7 @@ function App() {
 	for (let year = startYear; year <= endYear; year++) {
 		years.push(year)
 	}
-
+	console.log(curretPage)
 	return (
 		<div className="App">
 			<div className='container'>
@@ -53,8 +63,8 @@ function App() {
 						<div className='col-sm-2'></div>
 						<div className='col-sm-8'>
 							<div className='row'>
-								<div className='col-sm-2 col-lg-2'>
-									<div className='form-control'>
+								<div className='col-sm-4'>
+									<div className='form-control text-center'>
 										<select onChange={onChangeYear}>
 											<option>Select Year</option>
 											{
@@ -73,7 +83,7 @@ function App() {
 										<button className='btn btn-warning' onClick={handleSearch}>Search</button>
 									</div>
 								</div>
-								<div className='col-sm-2'></div>
+
 							</div>
 						</div>
 						<div className='col-sm-2'></div>
@@ -99,8 +109,24 @@ function App() {
 								)
 							})
 						}
+						<ReactPaginate
+							breakLabel="..."
+							nextLabel="next >"
+							onPageChange={handlePageClick}
+							pageRangeDisplayed={5}
+							pageCount={totalPage}
+							previousLabel="< previous"
+							renderOnZeroPageCount={null}
+							containerClassName={"pagination"}
+							previousLinkClassName={"link"}
+							nextLinkClassName={"link"}
+							disabledClassName={"disabled"}
+							activeClassName={"active"}
+						/>
+
 					</div>
 					<div className='col-sm-2 '></div>
+
 				</div>
 			</div>
 		</div>
