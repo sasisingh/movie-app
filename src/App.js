@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Loader from './components/Loader';
 import Card from './components/Card';
 import ReactPaginate from 'react-paginate';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -71,8 +72,8 @@ function App() {
 						<div className='col-sm-8'>
 							<div className='row'>
 								<div className='col-sm-4'>
-									<div className='form-control text-center'>
-										<select onChange={onChangeYear}>
+									 
+										<select onChange={onChangeYear} className='form-select form-control '>
 											<option>Select Year</option>
 											{
 												years.map((item, i) => {
@@ -82,7 +83,7 @@ function App() {
 												})
 											}
 										</select>
-									</div>
+								 
 								</div>
 								<div className='col-sm-8'>
 									<div className='input-group'>
@@ -97,7 +98,7 @@ function App() {
 					</div>
 				</div>
 			</div>
-			<div className='container p-5'>
+			<div className='container p-5 mb-3'>
 				<div className='row'>
 					<div className='col-sm-2' ></div>
 					<div className='col-sm-8'>
@@ -136,6 +137,7 @@ function App() {
 
 				</div>
 			</div>
+		 <Footer/>
 		</div>
 	);
 }
