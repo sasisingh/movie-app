@@ -8,7 +8,7 @@ function App() {
 
 	const [data, setData] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const [query, setQuery] = useState("something")
+	const [query, setQuery] = useState("spider")
 	const [year, setYear] = useState('')
 	const [totalPage, setTotalPage] = useState(null)
 	const [curretPage, setCurrentPage] = useState(1)
@@ -16,7 +16,7 @@ function App() {
 
 	const getData = () => {
 		setIsLoading(true)
-		fetch(`https://api.themoviedb.org/3/search/movie?api_key=d4fbc0cd7f3b6b7ea3c3b8e5c74b8f46&language=en-US&query=${query || "something"}&year=${year}&page=${curretPage}`)
+		fetch(`https://api.themoviedb.org/3/search/movie?api_key=d4fbc0cd7f3b6b7ea3c3b8e5c74b8f46&language=en-US&query=${query || "spider"}&year=${year}&page=${curretPage}`)
 			.then((result) => result.json()).then((resp) => {
 				setData(resp.results)
 				setTotalPage(resp.total_pages)
@@ -39,7 +39,6 @@ function App() {
 	const onChangeYear = (e) => {
 		resetPage()
 		setYear(e.target.value)
-		
 
 	}
 	const handleChange = (event) => {
@@ -72,18 +71,18 @@ function App() {
 						<div className='col-sm-8'>
 							<div className='row'>
 								<div className='col-sm-4'>
-									 
-										<select onChange={onChangeYear} className='form-select form-control '>
-											<option>Select Year</option>
-											{
-												years.map((item, i) => {
-													return (
-														<option value={item}>{item}</option>
-													)
-												})
-											}
-										</select>
-								 
+
+									<select onChange={onChangeYear} className='form-select form-control '>
+										<option>Select Year</option>
+										{
+											years.map((item, i) => {
+												return (
+													<option value={item}>{item}</option>
+												)
+											})
+										}
+									</select>
+
 								</div>
 								<div className='col-sm-8'>
 									<div className='input-group'>
@@ -137,7 +136,7 @@ function App() {
 
 				</div>
 			</div>
-		 <Footer/>
+			<Footer />
 		</div>
 	);
 }
